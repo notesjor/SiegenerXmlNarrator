@@ -1,0 +1,58 @@
+﻿<Window x:Class="SiegenerXmlNarrator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" Loaded="StartGame">
+  <Grid x:Name="background">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="70*"></RowDefinition>
+      <RowDefinition Height="30*"></RowDefinition>
+    </Grid.RowDefinitions>
+    <Grid Row="0">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="25*"></ColumnDefinition>
+          <ColumnDefinition Width="50*"></ColumnDefinition>
+          <ColumnDefinition Width="25*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Image Grid.Column="0" x:Name="img_left" Stretch="Uniform" StretchDirection="DownOnly"/>
+        <StackPanel Grid.Column="1" x:Name="npc_talk">
+          <Border BorderBrush="#FF0B00F3" BorderThickness="5" Margin="5" Padding="5" CornerRadius="20,20,20,0" HorizontalAlignment="Left">
+            <TextBlock TextWrapping="Wrap">Hallo Welt</TextBlock>
+          </Border>
+          <Border BorderBrush="#FFBF0000" BorderThickness="5" Margin="5" Padding="5" CornerRadius="20,20,0,20" HorizontalAlignment="Right">
+            <TextBlock TextWrapping="Wrap">Microsoft (R) Roslyn C#-Compilerversion 2.10.0.0
+Kontext aus "CSharpInteractive.rsp" wird geladen.
+Weitere Informationen erhalten Sie nach der Eingabe von "#help"</TextBlock>
+          </Border>
+          <Border BorderBrush="#FF0B00F3" BorderThickness="5" Margin="5" Padding="5" CornerRadius="20,20,20,0" HorizontalAlignment="Left">
+            <TextBlock TextWrapping="Wrap">Beispiel aus dem Seminar "Programmieren für Linguist*innen" - SomSe 2019 an der Universität Siegen (Dozent*in: Jan Oliver Rüdiger)</TextBlock>
+          </Border>
+        </StackPanel>
+        <Image Grid.Column="2" x:Name="img_right" Stretch="Uniform" StretchDirection="DownOnly"/>
+      </Grid>
+    </Grid>
+    <Grid Row="1" Background="#7000">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="24"></RowDefinition>
+        <RowDefinition Height="*"></RowDefinition>
+      </Grid.RowDefinitions>
+      <TextBlock Foreground="White" Padding="0,3,0,0" Grid.Row="0" x:Name="text_Question">
+        <TextBlock.Background>
+          <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#F000" Offset="0"/>
+            <GradientStop Color="#A000" Offset="1"/>
+          </LinearGradientBrush>
+        </TextBlock.Background>Die Frage an die Spieler*in...</TextBlock>
+      <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Hidden">
+        <StackPanel x:Name="list_Answers">
+          <Button>Auswahl - Option - 1</Button>
+          <Button>Auswahl - Option - 2</Button>
+          <Button>Auswahl - Option - 3</Button>
+        </StackPanel>
+      </ScrollViewer>
+    </Grid>
+  </Grid>
+</Window>

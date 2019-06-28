@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<game xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <vars>
+    <var id="cats" value="0" />
+  </vars>
+  <sec id="start">
+    <options id="start">
+      Dein Haus brennt. Was machst Du?
+      <ui background="img/house.png" left="img/popcorn.png" right="img/firetruck.png" />
+      <npcs>
+        <npc color="#f00" isleft="false" name="Popcorn" turn="Hmm, lecker lecker..."/>
+      </npcs>
+      <option jump="death">Cool, ich mache mir Popcorn.</option>
+      <option jump="optimal1">Ich bleibe ruhig, rufe die Feuerwehr und warte ab.</option>
+    </options>
+  </sec>
+  <sec id="optimal">
+    <options id="optimal1">
+      Du hörst ein lautes Miauen im Treppenhaus. Wie entscheidest Du dich?
+      <ui background="img/house.png" right="img/cat.png" left="img/firetruck.png" />
+      <npcs>
+        <npc color="#00f" isleft="false" name="Feuerwehr" turn="Bitte warten Sie ab und verlassen Sie nicht die Wohnung. Hilfe ist unterwegs."/>
+        <npc color="#0f0" isleft="false" name="Katze" turn="Miau miau miaaauuu"/>
+      </npcs>
+      <option jump="survive">Ich warte weiterhin auf die Feuerwehr.</option>
+      <option jump="optional1">Ich versuche alle Katzen zu retten.</option>
+    </options>
+  </sec>
+  <sec id="optimal">
+    <options id="optional1">
+      Du betrittst das Treppenhaus - auf der Treppe sitzt eine kleine Katze. Was machst Du?
+      <ui background="img/house.png" right="img/cat.png" left="img/cat.png" />
+      <npcs>
+        <npc color="#0f0" isleft="false" name="Katze" turn="Miau miau miaaauuu"/>
+      </npcs>
+      <option jump="survive">
+        <change id="cats" operator="add" value="1" />Ich nehme die Katze und gehe schnell wieder in die Wohnung.
+      </option>
+      <option jump="death">Ich versuche alle Katzen zu retten.</option>
+    </options>
+  </sec>
+  <sec id="ends">
+    <text id="death">
+      Du stirbst einen qualvollen Tod.
+      <ui BackgroundPath="img/death.png"/>
+    </text>
+    <text id="survive">
+      Du überlebst.
+      <ui BackgroundPath="img/win.png"/>
+    </text>
+  </sec>
+</game>

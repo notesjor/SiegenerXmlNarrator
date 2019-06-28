@@ -1,0 +1,6 @@
+popcorn.png > https://pixabay.com/de/vectors/popcorn-buttered-kino-mais-155602/
+cat.png > https://pixabay.com/de/vectors/vektor-rote-katze-h%C3%BCbsch-tier-2150014/
+house.png > https://pixabay.com/de/vectors/brennen-feuer-haus-verbrennung-149199/
+firetruck.png > https://pixabay.com/de/vectors/feuerwehrauto-rot-notfall-fahrzeug-308911/
+death.png > https://pixabay.com/de/illustrations/tag-der-toten-sch%C3%A4del-sugar-skull-2177235/
+win.png > https://pixabay.com/de/vectors/waschb%C3%A4r-coon-tier-k%C3%A4mpfen-faust-160556/
