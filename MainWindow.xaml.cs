@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
@@ -34,6 +35,17 @@ namespace SiegenerXmlNarrator
       }
 
       _controller = new GameController(this, game);
+      _controller.NullGameTask += ControllerOnNullGameTask;
+    }
+
+    private void ControllerOnNullGameTask(object sender, EventArgs e)
+    {
+      Close();
+    }
+
+    private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+      list_Answers.Width = e.NewSize.Width;
     }
   }
 }

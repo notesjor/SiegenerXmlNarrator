@@ -11,28 +11,30 @@
 using System.Xml.Serialization;
 
 // 
-// Dieser Quellcode wurde automatisch generiert von xsd, Version=4.6.1055.0.
+// Dieser Quellcode wurde automatisch generiert von xsd, Version=4.8.3928.0.
 // 
-
 namespace SiegenerXmlNarrator.Model
 {
-
   /// <remarks/>
-  [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
+  [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
   [System.SerializableAttribute()]
   [System.Diagnostics.DebuggerStepThroughAttribute()]
   [System.ComponentModel.DesignerCategoryAttribute("code")]
-  [XmlType(AnonymousType = true)]
-  [XmlRoot(Namespace = "", IsNullable = false)]
+  [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+  [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
   public partial class game
   {
 
     private variable[] varsField;
 
+    private rule[] rulesField;
+
     private sec[] secField;
 
+    private string nameField;
+
     /// <remarks/>
-    [XmlArrayItem("var", IsNullable = false)]
+    [System.Xml.Serialization.XmlArrayItemAttribute("var", IsNullable = false)]
     public variable[] vars
     {
       get { return this.varsField; }
@@ -40,11 +42,27 @@ namespace SiegenerXmlNarrator.Model
     }
 
     /// <remarks/>
-    [XmlElement("sec")]
+    [System.Xml.Serialization.XmlArrayItemAttribute("rule", IsNullable = false)]
+    public rule[] rules
+    {
+      get { return this.rulesField; }
+      set { this.rulesField = value; }
+    }
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlElementAttribute("sec")]
     public sec[] sec
     {
       get { return this.secField; }
       set { this.secField = value; }
+    }
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlAttributeAttribute()]
+    public string name
+    {
+      get { return this.nameField; }
+      set { this.nameField = value; }
     }
   }
 }

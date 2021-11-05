@@ -7,17 +7,17 @@
   [System.ComponentModel.DesignerCategoryAttribute("code")]
   [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
   [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
-  public partial class vars
+  public partial class rules
   {
 
-    private variable[] varField;
+    private rule[] ruleField;
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlElementAttribute("var")]
-    public variable[] var
+    [System.Xml.Serialization.XmlElementAttribute("rule")]
+    public rule[] rule
     {
-      get { return this.varField; }
-      set { this.varField = value; }
+      get { return this.ruleField; }
+      set { this.ruleField = value; }
     }
   }
 }

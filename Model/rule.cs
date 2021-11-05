@@ -7,10 +7,12 @@
   [System.ComponentModel.DesignerCategoryAttribute("code")]
   [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
   [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
-  public partial class change
+  public partial class rule
   {
 
     private string idField;
+
+    private string jumpField;
 
     private string operatorField;
 
@@ -22,6 +24,14 @@
     {
       get { return this.idField; }
       set { this.idField = value; }
+    }
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlAttributeAttribute(DataType = "NCName")]
+    public string jump
+    {
+      get { return this.jumpField; }
+      set { this.jumpField = value; }
     }
 
     /// <remarks/>

@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,6 +18,7 @@ namespace SiegenerXmlNarrator.Controller
   {
     private MainWindow _window;
     private game _game;
+    private Dictionary<string, string> _vars = new Dictionary<string, string>();
 
     public GameController(MainWindow window, string path)
     {
@@ -26,8 +29,45 @@ namespace SiegenerXmlNarrator.Controller
       using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read))
         _game = serializer.Deserialize(fs) as game;
 
+      // Lade Variablen für leichteren Zugriff (Zugriff erfolgt dann über GetVar und SetVar)
+      // id = name / value => Wert (immer ein String)
+      if (_game.vars != null)
+        foreach (var v in _game.vars)
+          SetVar(v.id, v.value);
+
       // Starte das Spiel mit der ersten Anweisung
       Next(GetId(_game.sec.First().Items.First()));
+    }
+
+    /// <summary>
+    /// Gibt die Variable zurück
+    /// </summary>
+    /// <param name="name">Name der Variable</param>
+    /// <returns>Wert als String</returns>
+    private string GetVar(string name)
+    {
+      return _vars.ContainsKey(name) ? _vars[name] : null;
+    }
+
+    /// <summary>
+    /// Speichere eine Variable als Text
+    /// </summary>
+    /// <param name="name">Name der Variable</param>
+    /// <param name="value">Wert</param>
+    private void SetVar(string name, string value)
+    {
+      if (_vars.ContainsKey(name))
+        _vars[name] = value;
+      else
+        _vars.Add(name, value);
+
+      // Jedes Mal wenn eine Variable verändert wird, muss der Fenstertitel geändert werden
+      var vars = new List<string>();
+      foreach (var v in _vars)
+        vars.Add(v.Key + ": " + v.Value);
+
+      _window.Title = _game.name + " - " + string.Join(" | ", vars);
+
     }
 
     /// <summary>
@@ -51,10 +91,22 @@ namespace SiegenerXmlNarrator.Controller
     /// <summary>
     /// Sucht nach Spiel-Anweisungen mit Id und führt diese aus.
     /// </summary>
-    /// <param name="id"></param>
-    private void Next(string id)
+    /// <param name="id">id der Spiel-Anweisung zu der gesprungen werden soll</param>
+    /// <param name="checkRules">Sollen zu der gesprungen werden soll (Standard: true)</param>
+    private void Next(string id, bool checkRules = true)
     {
       var task = FindXmlNode(id);
+      if (task == null)
+      {
+        NullGameTask?.Invoke(this, null); // Schließt des Fenster, wenn kein Task verfügbar ist.
+        return;
+      }
+
+      // Wende changes an
+      ApplyChanges(task.change);
+      // Überprüfe rules (nach den Changes)
+      if (checkRules && CheckRules()) return;
+
       NextSetupDefault(task);
 
       switch (task)
@@ -72,13 +124,97 @@ namespace SiegenerXmlNarrator.Controller
           foreach (var op in o.option)
           {
             var obtn = new Button();
-            obtn.Content = op.Text?.Trim();
-            obtn.Click += (s, e) => Next(op.jump); // "+= (s, e) =>" verknüpft das Click-Ereignis mit der Funktion Next(string id) 
+            obtn.Content = new TextBlock { TextWrapping = TextWrapping.Wrap, Text = op.Text?.Trim() };
+            obtn.Click += (s, e) =>
+            {
+              ApplyChanges(op.change);
+              Next(op.jump);
+            }; // "+= (s, e) =>" verknüpft das Click-Ereignis mit der Funktion Next(string id) 
 
             _window.list_Answers.Children.Add(obtn);
           }
 
           break;
+      }
+    }
+
+    private bool CheckRules()
+    {
+      if (_game.rules == null)
+        return false;
+
+      foreach (var r in _game.rules)
+      {
+        // vT = Variable (Input) als String
+        // vI = Variable (Input) als Int (cast von vT)
+        // vR = Variable (Rule) als Int
+
+        var vT = GetVar(r.id); // Variablen werden im Spiel immer als Text/String gespeichert
+        var vI = string.IsNullOrEmpty(vT) ? 0 : int.Parse(vT); // Überprüfen ob Variable leer (0)
+        var vR = int.Parse(r.value);
+
+        // Wenn eine Regel zutrifft, wird die weitere Ausführung mit return true unterbrochen
+        // Wichtig: checkRules für Next() muss false sein um ein endloses Überprüfen der Regeln zu unterbinden.
+        switch (r.@operator)
+        {
+          case "smaller":
+            if (vI < vR)
+            {
+              Next(r.jump, false);
+              return true;
+            }
+            break;
+          case "equal":
+            if (vI == vR)
+            {
+              Next(r.jump, false);
+              return true;
+            }
+            break;
+          case "bigger":
+            if (vI > vR)
+            {
+              Next(r.jump, false);
+              return true;
+            }
+            break;
+        }
+      }
+
+      // Wenn keine Regel zutriff, wird ganz normal fortgesetzt.
+      return false;
+    }
+
+    private void ApplyChanges(change[] changes)
+    {
+      if (changes == null)
+        return;
+
+      foreach (var c in changes)
+      {
+        // vT = Variable (Input) als String
+        // vI = Variable (Input) als Int (cast von vT)
+        // vC = Variable (Change) als Int
+        // vR = Variable (Output) = Input (@operator) Change
+
+        var vT = GetVar(c.id); // Variablen werden im Spiel immer als Text/String gespeichert
+        var vI = string.IsNullOrEmpty(vT) ? 0 : int.Parse(vT); // Überprüfen ob Variable leer (0)
+        var vC = int.Parse(c.value);
+        var vR = 0; // muss hier benannt werden (scope von switch beachten)
+
+        switch (c.@operator)
+        {
+          case "inc":
+          case "add":
+            vR = vI + vC;
+            break;
+          case "dec":
+          case "sub":
+            vR = vI - vC;
+            break;
+        }
+
+        SetVar(c.id, vR.ToString());
       }
     }
 
@@ -115,6 +251,7 @@ namespace SiegenerXmlNarrator.Controller
           var border = new Border();
           border.BorderBrush = new BrushConverter().ConvertFromString(npc.color) as SolidColorBrush;
           border.BorderThickness = new Thickness(5);
+          border.Background = new SolidColorBrush(Color.FromArgb(220, 255, 255, 255));
           border.Margin = new Thickness(5, 2.5, 5, 2.5);
           border.Padding = new Thickness(5);
           // Anpassung für den Rahmen abhängig von der Ausrichtung
@@ -136,6 +273,7 @@ namespace SiegenerXmlNarrator.Controller
           turn.Text = npc.turn;
           turn.TextWrapping = TextWrapping.Wrap; // Bricht Text automatisch um.
           stack.Children.Add(turn);
+          _window.npc_talk.Children.Add(border);
         }
     }
 
@@ -168,5 +306,8 @@ namespace SiegenerXmlNarrator.Controller
         }
       return null;
     }
+
+    // Event
+    public event EventHandler NullGameTask;
   }
 }

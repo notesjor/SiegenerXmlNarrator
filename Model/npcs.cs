@@ -7,17 +7,17 @@
   [System.ComponentModel.DesignerCategoryAttribute("code")]
   [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
   [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
-  public partial class vars
+  public partial class npcs
   {
 
-    private variable[] varField;
+    private npc[] npcField;
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlElementAttribute("var")]
-    public variable[] var
+    [System.Xml.Serialization.XmlElementAttribute("npc")]
+    public npc[] npc
     {
-      get { return this.varField; }
-      set { this.varField = value; }
+      get { return this.npcField; }
+      set { this.npcField = value; }
     }
   }
 }

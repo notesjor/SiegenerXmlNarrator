@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Loaded="StartGame">
+        Title="MainWindow" Height="450" Width="800" Loaded="StartGame" SizeChanged="Window_SizeChanged">
   <Grid x:Name="background">
     <Grid.RowDefinitions>
       <RowDefinition Height="70*"></RowDefinition>
@@ -47,10 +47,12 @@ Weitere Informationen erhalten Sie nach der Eingabe von "#help"</TextBlock>
           </LinearGradientBrush>
         </TextBlock.Background>Die Frage an die Spieler*in...</TextBlock>
       <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Hidden">
-        <StackPanel x:Name="list_Answers">
+        <StackPanel x:Name="list_Answers" Width="794">
           <Button>Auswahl - Option - 1</Button>
           <Button>Auswahl - Option - 2</Button>
-          <Button>Auswahl - Option - 3</Button>
+          <Button>
+            <TextBlock TextWrapping="Wrap">Auswahl - Option - 3Auswahl - Option - 3Auswahl - Option - 3Auswahl - Option - 3Auswahl - Option - 3Auswahl - Option - 3Auswahl - Option - 3Auswahl - Option - 3</TextBlock>
+          </Button>
         </StackPanel>
       </ScrollViewer>
     </Grid>

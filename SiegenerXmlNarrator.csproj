@@ -71,15 +71,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\change.cs" />
+    <Compile Include="Model\game.cs" />
     <Compile Include="Model\gametask.cs" />
     <Compile Include="Model\npc.cs" />
+    <Compile Include="Model\npcs.cs" />
     <Compile Include="Model\option.cs" />
     <Compile Include="Model\options.cs" />
-    <Compile Include="Model\game.cs" />
+    <Compile Include="Model\rule.cs" />
+    <Compile Include="Model\rules.cs" />
     <Compile Include="Model\sec.cs" />
     <Compile Include="Model\text.cs" />
     <Compile Include="Model\ui.cs" />
-    <Compile Include="Model\variable.cs" />
+    <Compile Include="Model\var.cs" />
     <Compile Include="Model\vars.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -134,5 +137,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
